@@ -45,10 +45,23 @@ def GetQrCode(data):
 import fitz
 
 def annotate_pdf(annotation, file_name):
-    data="https://hcs.gov.in/hcs/hg_judgements/"+file_name
+    # data="ORG:High Court of Sikkim\n CN:"+annotation+"\nhttps://hcs.gov.in/hcs/hg_judgements/"+file_name
+    # data="BEGIN:VCARD \nVERSION:3.0 \nFN:High Court of Sikkim \nNOTE: CN-"+annotation+"\nURL: https://hcs.gov.in/hcs/hg_judgements/"+file_name +"\nEND:VCARD" 
+    # data={
+    #     "MECARD": {
+    #     "ORG": "High Court of Sikkim",
+    #     "CN": annotation,
+    #     "URL": "https://hcs.gov.in/hcs/hg_judgements/"+file_name,
+    #         },
+    #     }
+
+    data = "https://hcs.gov.in/hcs/hg_judgements/"+file_name
+
     qr_code=GetQrCode(data)
 
     source_pdf = 'hg_judgments/' + file_name
+
+    # source_pdf = 'source/' + file_name
     
     output_pdf = 'output/' + file_name
 
@@ -93,8 +106,9 @@ def annotat_from_excel():
         annotate_pdf(row["citation_number"], row['file_path'])
 
 def annotat_from_csv():
-    sheet1 = pd.read_csv('data-judgement_list.csv')
-
+    # sheet1 = pd.read_csv('guide.csv')
+#  sheet1 = pd.read_csv('data-judgement_list.csv')
+    sheet1 = pd.read_csv('reference_list_for_qr_code_embeding.csv')
     for index, row in sheet1.iterrows():
         print (index, row["judgementfile"], row['nc'])
         annotate_pdf(row["nc"], row['judgementfile'])
